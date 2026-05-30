@@ -56,7 +56,7 @@ const destinations: Destination[] = [
   {
     name: "Moon Picnic",
     subtitle: "Just us under the stars.",
-    emoji: "🌙",
+    emoji: "",
     sky: "from-slate-950 via-indigo-950 to-black",
     scene: "moon",
   },
@@ -64,6 +64,13 @@ const destinations: Destination[] = [
 ];
 
 const levelLength = 17;
+const picnicItems = ["☕", "🍩", "🍓", "🫖"];
+
+function getPicnicItem(index: number) {
+  const picnicSlots = [3, 6, 10, 14];
+  const itemIndex = picnicSlots.indexOf(index);
+  return picnicItems[itemIndex] ?? "🧺";
+}
 
 function makeLevel(destinationIndex: number) {
   const destination = destinations[destinationIndex];
@@ -73,7 +80,7 @@ function makeLevel(destinationIndex: number) {
     if (i === 0) return "start";
 
     if (destination.scene === "moon") {
-      if ([3, 6, 10, 14].includes(i)) return "butterfly";
+      if ([3, 6, 10, 14].includes(i)) return "picnic";
       return "empty";
     }
 
@@ -156,8 +163,8 @@ function LevelScenery({ scene }: { scene: Destination["scene"] }) {
         <div className="absolute left-0 right-0 bottom-24 h-16 bg-slate-300/90 border-y-4 border-slate-100" />
 
         <div className="absolute bottom-28 left-10 text-4xl">🪨</div>
-        <div className="absolute bottom-32 right-16 text-4xl">💎</div>
-        <div className="absolute bottom-28 left-1/2 text-4xl">🧺</div>
+        <div className="absolute bottom-32 right-16 text-4xl">🧺</div>
+        <div className="absolute bottom-28 left-1/2 text-4xl">💎</div>
       </>
     );
   }
@@ -358,6 +365,22 @@ export default function LoveQuestRetroGame() {
     const tile = level[index];
     const key = keyForTile(index);
 
+    if (tile === "picnic" && !collected[key]) {
+      const item = getPicnicItem(index);
+
+      const messages: Record<string, string> = {
+        "☕": "Tea acquired. Picnic will be brew-tiful! ☕",
+        "🍩": "Donut acquired. A 'hole' lot more to love 🍩",
+        "🍓": "Strawberries acquired. Berry romantic. 🍓",
+        "🫖": "Teapot acquired. All systems go for tea, jokes, and hugs 🫖",
+      };
+
+      setButterflies((b) => b + 1);
+      setCollected((prev) => ({ ...prev, [key]: true }));
+      setMessage(messages[item] ?? "Picnic supplies acquired. 🧺");
+      return;
+    }
+
     if (tile === "butterfly" && !collected[key]) {
       setButterflies((b) => b + 1);
       setCollected((prev) => ({ ...prev, [key]: true }));
@@ -391,7 +414,7 @@ export default function LoveQuestRetroGame() {
         setGamePhase("boss");
         setMessage("TAKE HEED! Boss уёбок descends from thunderous clouds. Double jump or use your special!");
       } else if (destination.scene === "moon") {
-        setMessage("Moon Picnic complete. Love you to the moon and back. 🌙❤️");
+        setMessage("Moon Picnic complete. Misssion status: SUCCESS. Love you to the moon and back. 🌙❤️");
       } else {
         setMessage(`Destination reached: ${destination.name}. Date quest complete. ❤️ Press X to use ${player.special}.`);
       }
@@ -607,8 +630,8 @@ export default function LoveQuestRetroGame() {
               <div className="text-2xl mt-2">{Array.from({ length: 5 }).map((_, i) => <span key={i}>{i < hearts ? "❤️" : "🖤"}</span>)}</div>
             </div>
             <div className="rounded-2xl bg-slate-950/80 border-2 border-white/20 p-4">
-              <div className="text-slate-400 text-sm">BUTTERFLIES</div>
-              <div className="text-3xl mt-2">🦋 x {butterflies}</div>
+              <div className="text-slate-400 text-sm">{destination.scene === "moon" ? "PICNIC SUPPLIES" : "BUTTERFLIES"}</div>
+              <div className="text-3xl mt-2">{destination.scene === "moon" ? "🧺" : "🦋"} x {butterflies}</div>
             </div>
             <div className="rounded-2xl bg-slate-950/80 border-2 border-white/20 p-4">
               <div className="text-slate-400 text-sm">PARTNER</div>
@@ -630,6 +653,15 @@ export default function LoveQuestRetroGame() {
                     return (
                       <div key={i} className="relative h-20 flex items-center justify-center">
                         {tile === "butterfly" && !isCollected && <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 1.3 }} className="text-3xl">🦋</motion.div>}
+                        {tile === "picnic" && !isCollected && (
+                          <motion.div
+                            animate={{ y: [0, -8, 0], rotate: [-3, 3, -3] }}
+                            transition={{ repeat: Infinity, duration: 1.3 }}
+                            className="text-3xl"
+                          >
+                            {getPicnicItem(i)}
+                          </motion.div>
+                        )}
                         {tile === "уёбок" && !destroyedEnemies[keyForTile(i)] && (
                           <motion.div
                             animate={{ rotate: [-3, 3, -3] }}
