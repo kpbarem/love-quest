@@ -7,7 +7,7 @@ type Destination = {
   subtitle: string;
   emoji: string;
   sky: string;
-  scene: "moscow" | "batumi" | "goldenGate";
+  scene: "moscow" | "batumi" | "goldenGate" | "moon";
 };
 
 type PlayerKey = "kevin" | "alexandra";
@@ -53,14 +53,30 @@ const destinations: Destination[] = [
     sky: "from-sky-400 via-yellow-300 to-orange-400",
     scene: "goldenGate",
   },
+  {
+    name: "Moon Picnic",
+    subtitle: "No distance. No trolls. Just us under the stars.",
+    emoji: "🌙",
+    sky: "from-slate-950 via-indigo-950 to-black",
+    scene: "moon",
+  },
+
 ];
 
 const levelLength = 17;
 
 function makeLevel(destinationIndex: number) {
+  const destination = destinations[destinationIndex];
+
   return Array.from({ length: levelLength }, (_, i) => {
     if (i === levelLength - 1) return "finish";
     if (i === 0) return "start";
+
+    if (destination.scene === "moon") {
+      if ([3, 6, 10, 14].includes(i)) return "butterfly";
+      return "empty";
+    }
+
     if ([4, 9, 13].includes(i)) return "уёбок";
     if ((i + destinationIndex) % 2 === 0) return "butterfly";
     return "empty";
@@ -108,6 +124,40 @@ function LevelScenery({ scene }: { scene: Destination["scene"] }) {
         <div className="absolute bottom-24 left-6 text-6xl">🪨</div>
         <div className="absolute bottom-28 right-14 text-6xl">🪨</div>
         <div className="absolute bottom-32 left-1/2 text-4xl">🪨</div>
+      </>
+    );
+  }
+  if (scene === "moon") {
+    return (
+      <>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-indigo-950 to-slate-950" />
+
+        <div className="absolute top-8 left-10 text-7xl opacity-90">🌎</div>
+        <div className="absolute top-10 right-12 text-5xl">☄️</div>
+
+        <motion.div
+          animate={{ x: [-80, 900], y: [0, 120], opacity: [0, 1, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2 }}
+          className="absolute top-10 left-0 text-4xl"
+        >
+          ✨
+        </motion.div>
+
+        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_20%_20%,white,transparent_1.5%),radial-gradient(circle_at_50%_10%,white,transparent_1.5%),radial-gradient(circle_at_75%_25%,white,transparent_1.5%),radial-gradient(circle_at_85%_40%,white,transparent_1.5%)]" />
+
+        <div
+          className="absolute left-0 right-0 bottom-0 h-44 bg-slate-400"
+          style={{
+            clipPath:
+              "polygon(0% 35%, 12% 28%, 25% 38%, 40% 22%, 55% 35%, 70% 25%, 88% 38%, 100% 28%, 100% 100%, 0% 100%)",
+          }}
+        />
+
+        <div className="absolute left-0 right-0 bottom-24 h-16 bg-slate-300/90 border-y-4 border-slate-100" />
+
+        <div className="absolute bottom-28 left-10 text-4xl">🪨</div>
+        <div className="absolute bottom-32 right-16 text-4xl">💎</div>
+        <div className="absolute bottom-28 left-1/2 text-4xl">🧺</div>
       </>
     );
   }
@@ -263,6 +313,7 @@ export default function LoveQuestRetroGame() {
 
   const destination = destinations[destinationIndex];
   const player = players[selectedPlayer];
+  const displayAvatar = destination.scene === "moon" ? "😎❤️🧜‍♀️" : player.avatar;
   const level = useMemo(() => makeLevel(destinationIndex), [destinationIndex]);
 
   const keyForTile = (index: number) => `${destinationIndex}-${index}`;
@@ -270,14 +321,23 @@ export default function LoveQuestRetroGame() {
   const [bossHealth, setBossHealth] = useState(2);
   const [bossDefeated, setBossDefeated] = useState(false);
   const [lastJumpTime, setLastJumpTime] = useState(0);
+  const [moonUnlocked, setMoonUnlocked] = useState(false);
 
   function reset(destIndex = destinationIndex, playerKey = selectedPlayer) {
+    const nextDestination = destinations[destIndex];
+
     setSelectedPlayer(playerKey);
     setDestinationIndex(destIndex);
     setPosition(0);
     setButterflies(0);
     setHearts(5);
-    setMessage(`${players[playerKey].name}'s quest started. ${players[playerKey].partner} is waiting at the destination.`);
+
+    if (nextDestination.scene === "moon") {
+      setMessage("LUNAR COMMAND ALERT: KEVANDRA HAS BREACHED LUNAR SURFACE. PICNIC IMMINENT🌙🧺❤️");
+    } else {
+      setMessage(`${players[playerKey].name}'s quest started. ${players[playerKey].partner} is waiting at the destination.`);
+    }
+
     setCollected({});
     setGameOver(false);
     setArrived(false);
@@ -329,6 +389,8 @@ export default function LoveQuestRetroGame() {
       if (destination.scene === "goldenGate") {
         setGamePhase("boss");
         setMessage("TAKE HEED! Boss уёбок descends from thunderous clouds. Double jump or use your special!");
+      } else if (destination.scene === "moon") {
+        setMessage("Moon Picnic complete. No distance. No trolls. Just us. 🌙❤️");
       } else {
         setMessage(`Destination reached: ${destination.name}. Date quest complete. ❤️ Press X to use ${player.special}.`);
       }
@@ -420,8 +482,9 @@ export default function LoveQuestRetroGame() {
 
       setTimeout(() => {
         setSpecialActive(false);
+        setMoonUnlocked(true);
         setGamePhase("ending");
-        setMessage("The final уёбок has fallen. You are finally together. ❤️");
+        setMessage("The final уёбок has fallen. Secret destination unlocked: Moon Picnic 🌙");
       }, 1000);
 
       return;
@@ -435,8 +498,9 @@ export default function LoveQuestRetroGame() {
         setMessage("DOUBLE JUMP FINISHER! Boss уёбок defeated. Love wins. ❤️");
 
         setTimeout(() => {
+          setMoonUnlocked(true);
           setGamePhase("ending");
-          setMessage("The final уёбок has fallen. You are finally together. ❤️");
+          setMessage("The final уёбок has fallen. Secret destination unlocked: Moon Picnic 🌙");
         }, 900);
       } else {
         setMessage("Double jump hit! Boss уёбок is weakened. One more!");
@@ -561,7 +625,7 @@ export default function LoveQuestRetroGame() {
                             layoutId="player"
                             className="absolute -bottom-1 text-5xl z-20 drop-shadow-lg"
                           >
-                            {player.avatar}
+                            {displayAvatar}
                           </motion.div>
                         )}
                       </div>
@@ -583,7 +647,7 @@ export default function LoveQuestRetroGame() {
                     transition={{ duration: 0.52, ease: "easeOut" }}
                     className="absolute text-5xl z-30 drop-shadow-lg -translate-x-1/2"
                   >
-                    {player.avatar}
+                    {displayAvatar}
                   </motion.div>
                 )}
                 {specialActive && (
@@ -639,6 +703,14 @@ export default function LoveQuestRetroGame() {
                       alt="Kevin and Alexandra"
                       className="h-full w-full object-contain rounded-xl shadow-2xl"
                     />
+                    {moonUnlocked && (
+                      <button
+                        onClick={() => reset(3)}
+                        className="mt-4 rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 px-6 py-3 font-black"
+                      >
+                        Moon Picnic Unlocked 🌙
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
