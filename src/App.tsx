@@ -55,7 +55,7 @@ const destinations: Destination[] = [
   },
   {
     name: "Moon Picnic",
-    subtitle: "No distance. No trolls. Just us under the stars.",
+    subtitle: "Just us under the stars.",
     emoji: "🌙",
     sky: "from-slate-950 via-indigo-950 to-black",
     scene: "moon",
@@ -390,7 +390,7 @@ export default function LoveQuestRetroGame() {
         setGamePhase("boss");
         setMessage("TAKE HEED! Boss уёбок descends from thunderous clouds. Double jump or use your special!");
       } else if (destination.scene === "moon") {
-        setMessage("Moon Picnic complete. No distance. No trolls. Just us. 🌙❤️");
+        setMessage("Moon Picnic complete. Love you to the moon and back. 🌙❤️");
       } else {
         setMessage(`Destination reached: ${destination.name}. Date quest complete. ❤️ Press X to use ${player.special}.`);
       }
