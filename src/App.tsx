@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Trophy, MapPin, RotateCcw } from "lucide-react";
 
@@ -322,6 +322,7 @@ export default function LoveQuestRetroGame() {
   const [bossDefeated, setBossDefeated] = useState(false);
   const [lastJumpTime, setLastJumpTime] = useState(0);
   const [moonUnlocked, setMoonUnlocked] = useState(false);
+  const moonAudioRef = useRef<HTMLAudioElement | null>(null);
 
   function reset(destIndex = destinationIndex, playerKey = selectedPlayer) {
     const nextDestination = destinations[destIndex];
@@ -530,8 +531,24 @@ export default function LoveQuestRetroGame() {
     return () => window.removeEventListener("keydown", onKeyDown);
   });
 
+  useEffect(() => {
+    if (!moonAudioRef.current) return;
+
+    if (destination.scene === "moon") {
+      moonAudioRef.current.volume = 0.35;
+      moonAudioRef.current.loop = true;
+
+      moonAudioRef.current.play().catch(() => {
+      });
+    } else {
+      moonAudioRef.current.pause();
+      moonAudioRef.current.currentTime = 0;
+    }
+  }, [destination.scene]);
+
   return (
     <div className={`min-h-screen bg-gradient-to-b ${destination.sky} text-white p-4 sm:p-8 font-mono overflow-hidden`}>
+      <audio ref={moonAudioRef} src="/moon.mp3" />
       <div className="max-w-6xl mx-auto">
         <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
           <div>
@@ -599,7 +616,10 @@ export default function LoveQuestRetroGame() {
             </div>
           </div>
 
-          <div className="relative rounded-2xl overflow-hidden border-4 border-white/30 bg-gradient-to-t from-green-950 via-slate-900 to-slate-800 min-h-[360px]">
+          <div
+            className={`relative rounded-2xl overflow-hidden border-4 border-white/30 bg-gradient-to-t from-green-950 via-slate-900 to-slate-800 ${gamePhase === "ending" ? "min-h-[560px]" : "min-h-[360px]"
+              }`}
+          >
             {gamePhase !== "ending" ? (
               <>
                 <LevelScenery scene={destination.scene} />
@@ -685,33 +705,30 @@ export default function LoveQuestRetroGame() {
                 )}
               </>
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-700 via-slate-900 to-black flex items-center justify-center p-4">
-                <div className="w-full max-w-3xl h-full max-h-[340px] text-center bg-slate-900/80 border-4 border-cyan-300/60 rounded-3xl p-4 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.25)]">
-
-                  <h2 className="text-3xl font-black text-cyan-100">
+              <div className="absolute inset-0 bg-gradient-to-b from-slate-700 via-slate-900 to-black flex items-center justify-center p-6">
+                <div className="w-full max-w-3xl text-center bg-slate-900/80 border-4 border-cyan-300/60 rounded-3xl p-6 flex flex-col items-center shadow-[0_0_40px_rgba(34,211,238,0.25)]">
+                  <h2 className="text-4xl font-black text-cyan-100">
                     Finally Together ❤️
                   </h2>
 
-                  <p className="text-lg mt-2 max-w-2xl text-slate-200">
-                    All the уёбки are defeated. The distance disappears.
-                    Our love story continues.
+                  <p className="text-lg mt-3 max-w-2xl text-slate-200">
+                    All the уёбки are defeated. The distance disappears. Our love story continues.
                   </p>
 
-                  <div className="mt-4 w-full flex-1 min-h-0 rounded-2xl border-4 border-cyan-300/50 bg-black/40 p-3 flex items-center justify-center">
-                    <img
-                      src="/us.png"
-                      alt="Kevin and Alexandra"
-                      className="h-full w-full object-contain rounded-xl shadow-2xl"
-                    />
-                    {moonUnlocked && (
-                      <button
-                        onClick={() => reset(3)}
-                        className="mt-4 rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 px-6 py-3 font-black"
-                      >
-                        Moon Picnic Unlocked 🌙
-                      </button>
-                    )}
-                  </div>
+                  <img
+                    src="/us.png"
+                    alt="Kevin and Alexandra"
+                    className="mt-5 max-h-[300px] w-auto object-contain rounded-xl border-4 border-cyan-300/50 shadow-2xl"
+                  />
+
+                  {moonUnlocked && (
+                    <button
+                      onClick={() => reset(3)}
+                      className="mt-5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 px-6 py-3 font-black"
+                    >
+                      ✨ Secret Level: Moon Picnic 🌙
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -753,7 +770,7 @@ export default function LoveQuestRetroGame() {
         </section>
 
         <section className="mt-6 grid sm:grid-cols-3 gap-4">
-          {destinations.map((d, i) => (
+          {destinations.filter((d) => d.scene !== "moon").map((d, i) => (
             <button key={d.name} onClick={() => reset(i)} className={`rounded-2xl border-2 p-4 text-left transition ${i === destinationIndex ? "border-pink-300 bg-pink-500/20" : "border-white/20 bg-black/30 hover:bg-white/10"}`}>
               <div className="flex items-center gap-2 text-xl font-bold"><MapPin size={18} /> {d.emoji} {d.name}</div>
               <p className="text-slate-300 text-sm mt-2">{d.subtitle}</p>
