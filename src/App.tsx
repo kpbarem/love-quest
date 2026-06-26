@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Trophy, MapPin, RotateCcw } from "lucide-react";
 
+
 type Destination = {
   name: string;
   subtitle: string;
@@ -330,6 +331,13 @@ export default function LoveQuestRetroGame() {
   const [lastJumpTime, setLastJumpTime] = useState(0);
   const [moonUnlocked, setMoonUnlocked] = useState(false);
   const moonAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [kisses, setKisses] = useState(() => {
+    return Number(localStorage.getItem("batumiKisses") ?? 0);
+  });
+
+  useEffect(() => {
+    localStorage.setItem("batumiKisses", String(kisses));
+  }, [kisses]);
 
   function reset(destIndex = destinationIndex, playerKey = selectedPlayer) {
     const nextDestination = destinations[destIndex];
@@ -537,6 +545,23 @@ export default function LoveQuestRetroGame() {
   function nextDestination() {
     const next = (destinationIndex + 1) % destinations.length;
     reset(next);
+  }
+
+  const kissIntervalRef = useRef<number | null>(null);
+
+  function startKissing() {
+    setKisses((k) => k + 1);
+
+    kissIntervalRef.current = window.setInterval(() => {
+      setKisses((k) => k + 1);
+    }, 80);
+  }
+
+  function stopKissing() {
+    if (kissIntervalRef.current) {
+      clearInterval(kissIntervalRef.current);
+      kissIntervalRef.current = null;
+    }
   }
 
   useEffect(() => {
@@ -828,6 +853,42 @@ export default function LoveQuestRetroGame() {
             <button onClick={() => reset()} className="mt-5 rounded-2xl bg-white text-slate-950 px-6 py-3 font-black">Try Again</button>
           </motion.div>
         )}
+
+        <section className="mt-8 relative overflow-hidden rounded-3xl border-4 border-cyan-300 bg-slate-950 p-6 text-center shadow-[0_0_35px_rgba(34,211,238,0.25)]">
+          <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:100%_6px]" />
+
+          <div className="relative">
+
+            <h2 className="text-3xl sm:text-4xl font-black">
+              Batumi Kiss Calculator
+            </h2>
+
+            <p className="text-slate-300 mt-3">
+              Scientific forecast of how many kisses we will need in Batumi.
+            </p>
+
+            <div className="mx-auto mt-6 max-w-xl rounded-2xl border-4 border-cyan-400 bg-black px-6 py-5 shadow-[inset_0_0_25px_rgba(34,211,238,0.25)]">
+              <div className="text-7xl sm:text-8xl font-black text-cyan-300">
+                {kisses.toLocaleString()} 😘
+              </div>
+            </div>
+
+            <button
+              onMouseDown={startKissing}
+              onMouseUp={stopKissing}
+              onMouseLeave={stopKissing}
+              onTouchStart={startKissing}
+              onTouchEnd={stopKissing}
+              className="mt-6 rounded-2xl border-4 border-cyan-300 bg-blue-950 hover:bg-cyan-950 active:scale-95 transition px-8 py-5 text-2xl font-black text-cyan-200 shadow-[0_0_22px_rgba(34,211,238,0.35)]"
+            >
+              HOLD FOR KISSES
+            </button>
+
+            <p className="text-sm text-slate-300 mt-5">
+              Warning: calculation may be underestimated.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
