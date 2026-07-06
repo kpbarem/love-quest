@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Trophy, MapPin, RotateCcw } from "lucide-react";
+import DigitalScrapbook from "./components/DigitalScrapbook";
+
+
+type AppPage = "game" | "scrapbook";
+
 
 
 type Destination = {
@@ -302,7 +307,12 @@ function LevelScenery({ scene }: { scene: Destination["scene"] }) {
     </>
   );
 }
+
+
+
+
 export default function LoveQuestRetroGame() {
+  const [appPage, setAppPage] = useState<AppPage>("game");
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerKey>("kevin");
   const [destinationIndex, setDestinationIndex] = useState(0);
   const [position, setPosition] = useState(0);
@@ -594,6 +604,10 @@ export default function LoveQuestRetroGame() {
     }
   }, [destination.scene]);
 
+  if (appPage === "scrapbook") {
+    return <DigitalScrapbook onBack={() => setAppPage("game")} />;
+  }
+
   return (
     <div className={`min-h-screen bg-gradient-to-b ${destination.sky} text-white p-4 sm:p-8 font-mono overflow-hidden`}>
       <audio ref={moonAudioRef} src="/moon.mp3" />
@@ -607,6 +621,12 @@ export default function LoveQuestRetroGame() {
             <div className="text-sm text-slate-300">CURRENT DESTINATION</div>
             <div className="text-2xl font-bold">{destination.emoji} {destination.name}</div>
           </div>
+          <button
+            onClick={() => setAppPage("scrapbook")}
+            className="rounded-2xl border-2 border-pink-300 bg-pink-500/20 hover:bg-pink-500/30 px-4 py-3 font-black"
+          >
+            📖 Digital Scrapbook
+          </button>
         </header>
         <section className="grid sm:grid-cols-2 gap-4 mb-6">
           {(Object.keys(players) as PlayerKey[]).map((key) => {
