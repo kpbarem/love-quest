@@ -27,6 +27,7 @@ export default function DigitalScrapbook() {
     const [isEditing, setIsEditing] = useState(true);
     const [bookTitle, setBookTitle] = useState("");
     const navigate = useNavigate();
+    const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
     const selectedBook = books.find((book) => book.id === selectedBookId);
     const page = pages[currentPage];
@@ -84,10 +85,16 @@ export default function DigitalScrapbook() {
 
         await updateBook(selectedBookId, { title: bookTitle });
 
+        setSaveState("saving");
         await updatePage(selectedBookId, page.id, {
             title: page.title,
             elements: page.elements,
         });
+        setSaveState("saved");
+
+        setTimeout(() => {
+            setSaveState("idle");
+        }, 2000);
 
         setBooks((currentBooks) =>
             currentBooks.map((book) =>
@@ -467,9 +474,13 @@ export default function DigitalScrapbook() {
                                             {isEditing && (
                                                 <button
                                                     onClick={handleSavePage}
-                                                    className="scrapbook-soft-button"
-                                                >
-                                                    Save Page
+                                                    className={`scrapbook-save-button ${saveState === "saved" ? "saved" : ""}`} disabled={saveState === "saving"}>
+                                                    {
+                                                        saveState === "idle" && "💾 Save Page"}
+                                                    {
+                                                        saveState === "saving" && "Saving..."}
+                                                    {
+                                                        saveState === "saved" && "✓ Saved"}
                                                 </button>
                                             )}
 

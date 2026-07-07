@@ -306,6 +306,10 @@
   transform: scale(1.07);
 }
 
+.scrapbook-save-button.saved {
+    background: #5f8c54;
+}
+
 /*adding for mobile */
 @media (max-width: 768px) {
     .scrapbook-screen {
