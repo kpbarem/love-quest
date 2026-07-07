@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "./DigitalScrapbook.css";
+import { useNavigate } from "react-router-dom";
 import {
     createBook,
     createPage,
@@ -14,11 +15,9 @@ import {
     type ScrapbookElement,
 } from "../lib/scrapbook";
 
-type DigitalScrapbookProps = {
-    onBack: () => void;
-};
 
-export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
+
+export default function DigitalScrapbook() {
     const [books, setBooks] = useState<ScrapbookBook[]>([]);
     const [selectedBookId, setSelectedBookId] = useState<string>("");
     const [pages, setPages] = useState<ScrapbookPage[]>([]);
@@ -27,6 +26,7 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(true);
     const [bookTitle, setBookTitle] = useState("");
+    const navigate = useNavigate();
 
     const selectedBook = books.find((book) => book.id === selectedBookId);
     const page = pages[currentPage];
@@ -204,7 +204,11 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
     return (
         <div className="scrapbook-screen">
             <div>
-                <button onClick={onBack} className="scrapbook-back">
+                {/* <button onClick={onBack} className="scrapbook-back">
+                    ← Back to Love Quest
+                </button> */}
+
+                <button onClick={() => navigate("/")} className="scrapbook-back">
                     ← Back to Love Quest
                 </button>
 
@@ -213,7 +217,7 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
                         Kevandra Adventures
                     </h1>
 
-                    <div className="scrapbook-book">
+                    <div className={`scrapbook-book ${isEditing ? "scrapbook-book-editing" : "scrapbook-book-viewing"}`}>
                         {isEditing && (
                             <aside className="scrapbook-sidebar">
                                 <h2 className="scrapbook-sidebar-title">Bookshelf</h2>
@@ -277,15 +281,14 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
                                             )}
                                         </div>
 
-                                        <button
-                                            onClick={handleAddPage}
-                                            className="scrapbook-soft-button"
-                                        >
-                                            + Add Page
-                                        </button>
+                                        {isEditing && (
+                                            <button onClick={handleAddPage} className="scrapbook-soft-button">
+                                                + Add Page
+                                            </button>
+                                        )}
                                         <button
                                             onClick={() => setIsEditing((value) => !value)}
-                                            className="scrapbook-soft-button"
+                                            className={`scrapbook-soft-button ${isEditing ? "scrapbook-view-button" : ""}`}
                                         >
                                             {isEditing ? "View Book" : "Edit Page"}
                                         </button>

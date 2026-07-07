@@ -281,6 +281,31 @@
     box-shadow: 0 10px 24px rgba(66, 38, 18, 0.22);
 }
 
+.scrapbook-book-viewing {
+  display: block;
+}
+
+.scrapbook-book-viewing::before {
+  display: none;
+}
+
+.scrapbook-book-viewing .scrapbook-page {
+  min-height: 720px;
+  border-radius: 22px;
+}
+
+.scrapbook-view-button {
+  background: #5c3b28;
+  color: #fff6e4;
+  transform: scale(1.04);
+  box-shadow: 0 8px 18px rgba(60, 34, 18, 0.28);
+}
+
+.scrapbook-view-button:hover {
+  background: #6d4730;
+  transform: scale(1.07);
+}
+
 /*adding for mobile */
 @media (max-width: 768px) {
     .scrapbook-screen {
