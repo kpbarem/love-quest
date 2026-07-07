@@ -59,17 +59,17 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
         setNewBookTitle("Our New Book");
     }
 
-    async function handleSaveBookTitle(title: string) {
-        if (!selectedBookId) return;
+    // async function handleSaveBookTitle(title: string) {
+    //     if (!selectedBookId) return;
 
-        await updateBook(selectedBookId, { title });
+    //     await updateBook(selectedBookId, { title });
 
-        setBooks((currentBooks) =>
-            currentBooks.map((book) =>
-                book.id === selectedBookId ? { ...book, title } : book
-            )
-        );
-    }
+    //     setBooks((currentBooks) =>
+    //         currentBooks.map((book) =>
+    //             book.id === selectedBookId ? { ...book, title } : book
+    //         )
+    //     );
+    // }
 
     async function handleAddPage() {
         if (!selectedBookId) return;
