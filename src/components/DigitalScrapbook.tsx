@@ -26,6 +26,7 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
     const [newBookTitle, setNewBookTitle] = useState("Our New Book");
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(true);
+    const [bookTitle, setBookTitle] = useState("");
 
     const selectedBook = books.find((book) => book.id === selectedBookId);
     const page = pages[currentPage];
@@ -61,7 +62,7 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
     async function handleSaveBookTitle(title: string) {
         if (!selectedBookId) return;
 
-        updateBook(selectedBookId, { title });
+        await updateBook(selectedBookId, { title });
 
         setBooks((currentBooks) =>
             currentBooks.map((book) =>
@@ -81,10 +82,18 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
     async function handleSavePage() {
         if (!selectedBookId || !page) return;
 
+        await updateBook(selectedBookId, { title: bookTitle });
+
         await updatePage(selectedBookId, page.id, {
             title: page.title,
             elements: page.elements,
         });
+
+        setBooks((currentBooks) =>
+            currentBooks.map((book) =>
+                book.id === selectedBookId ? { ...book, title: bookTitle } : book
+            )
+        );
 
         await loadPages(selectedBookId);
     }
@@ -182,6 +191,8 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
         }
     }, [selectedBookId]);
 
+    useEffect(() => { if (selectedBook) { setBookTitle(selectedBook.title); } }, [selectedBook]);
+
     if (loading) {
         return (
             <div className="min-h-screen bg-slate-950 text-white p-8 font-mono">
@@ -252,8 +263,11 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
                                             </div>
                                             {isEditing ? (
                                                 <input
-                                                    value={selectedBook.title}
-                                                    onChange={(e) => handleSaveBookTitle(e.target.value)}
+                                                    value={bookTitle}
+                                                    onChange={(e) => setBookTitle(e.target.value)}
+                                                    onKeyDown={(e) => {
+                                                        e.stopPropagation();
+                                                    }}
                                                     className="scrapbook-book-title"
                                                 />
                                             ) : (
@@ -299,6 +313,9 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
                                                 <input
                                                     value={page?.title ?? ""}
                                                     onChange={(e) => updateCurrentPage({ title: e.target.value })}
+                                                    onKeyDown={(e) => {
+                                                        e.stopPropagation();
+                                                    }}
                                                     className="mt-4 w-full border-0 border-b border-[#c9a96a] bg-transparent px-1 py-2 text-4xl font-serif font-bold outline-none placeholder:text-stone-400"
                                                 />
                                             ) : (
@@ -369,7 +386,15 @@ export default function DigitalScrapbook({ onBack }: DigitalScrapbookProps) {
                                                             {isEditing && (
                                                                 <div className="mb-3 flex flex-wrap gap-2 justify-between">
                                                                     <div className="font-black text-amber-900">
-                                                                        {element.type.toUpperCase()} ELEMENT
+                                                                        <h4 className="scrapbook-element-title">
+                                                                            {element.type === "text"
+                                                                                ? "Story"
+                                                                                : element.type === "image"
+                                                                                    ? "Photo"
+                                                                                    : element.type === "video"
+                                                                                        ? "Video"
+                                                                                        : "Music"}
+                                                                        </h4>
                                                                     </div>
 
                                                                     <div className="flex gap-2">

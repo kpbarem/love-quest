@@ -576,6 +576,10 @@ export default function LoveQuestRetroGame() {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
+
+        if (appPage !== "game") {
+          return;
+        }
       if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") move(1);
       if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") move(-1);
       if (e.key === " " || e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
@@ -584,8 +588,11 @@ export default function LoveQuestRetroGame() {
       }
       if (e.key.toLowerCase() === "r") reset();
       if (e.key.toLowerCase() === "x") useSpecial();
+
     }
     window.addEventListener("keydown", onKeyDown);
+
+
     return () => window.removeEventListener("keydown", onKeyDown);
   });
 
