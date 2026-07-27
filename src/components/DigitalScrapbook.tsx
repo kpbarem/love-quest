@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "./DigitalScrapbook.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     createBook,
     createPage,
@@ -24,9 +24,10 @@ export default function DigitalScrapbook() {
     const [currentPage, setCurrentPage] = useState(0);
     const [newBookTitle, setNewBookTitle] = useState("Our New Book");
     const [loading, setLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(true);
     const [bookTitle, setBookTitle] = useState("");
     const navigate = useNavigate();
+    const { bookId } = useParams<{ bookId: string }>();
+    const [isEditing, setIsEditing] = useState(!bookId);
     const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
     const selectedBook = books.find((book) => book.id === selectedBookId);
@@ -34,10 +35,19 @@ export default function DigitalScrapbook() {
 
     async function loadBooks() {
         setLoading(true);
+
         const loadedBooks = await getBooks();
         setBooks(loadedBooks);
 
-        if (loadedBooks.length > 0 && !selectedBookId) {
+        if (bookId) {
+            const requestedBookExists = loadedBooks.some(
+                (book) => book.id === bookId
+            );
+
+            if (requestedBookExists) {
+                setSelectedBookId(bookId);
+            }
+        } else if (loadedBooks.length > 0 && !selectedBookId) {
             setSelectedBookId(loadedBooks[0].id);
         }
 
@@ -211,9 +221,6 @@ export default function DigitalScrapbook() {
     return (
         <div className="scrapbook-screen">
             <div>
-                {/* <button onClick={onBack} className="scrapbook-back">
-                    ← Back to Love Quest
-                </button> */}
 
                 <button onClick={() => navigate("/")} className="scrapbook-back">
                     ← Back to Love Quest

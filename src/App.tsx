@@ -7,6 +7,7 @@ export default function App() {
         <Routes>
             <Route path="/" element={<LoveQuestRetroGame />} />
             <Route path="/scrapbook" element={<DigitalScrapbook />} />
+            <Route path="/scrapbook/:bookId/view" element={<DigitalScrapbook />} />
         </Routes>
     );
 }
