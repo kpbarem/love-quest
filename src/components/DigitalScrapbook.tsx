@@ -208,6 +208,13 @@ export default function DigitalScrapbook() {
         }
     }, [selectedBookId]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }, [currentPage]);
+
     useEffect(() => { if (selectedBook) { setBookTitle(selectedBook.title); } }, [selectedBook]);
 
     if (loading) {
