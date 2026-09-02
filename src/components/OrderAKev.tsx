@@ -52,7 +52,7 @@ const statusSteps: {
     {
       status: "delivered",
       label: "Delivered",
-      emoji: "💋",
+      emoji: "😘",
     },
   ];
 
@@ -550,7 +550,7 @@ export default function OrderAKev() {
 
                   <div className="total-row">
                     <span>TOTAL</span>
-                    <span>ONE KISS 💋</span>
+                    <span>ONE KISS 😘</span>
                   </div>
                 </div>
               </div>
