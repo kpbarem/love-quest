@@ -631,6 +631,12 @@ export default function LoveQuestRetroGame() {
           >
             📖 Digital Scrapbook
           </Link>
+          <Link
+            to="/order-a-kev"
+            className="rounded-2xl border-2 border-cyan-300 bg-cyan-500/20 hover:bg-cyan-500/30 px-4 py-3 font-black text-center"
+          >
+            📦 Order a Kev
+          </Link>
         </header>
         <section className="grid sm:grid-cols-2 gap-4 mb-6">
           {(Object.keys(players) as PlayerKey[]).map((key) => {
