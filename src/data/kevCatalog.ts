@@ -42,7 +42,7 @@ export const kevOptions: KevOption[] = [
     name: "Sexy Kev",
     emoji: "🔥",
     description:
-      "Not that innocent 😈",
+      "NOT. THAT. INNOCENT. 😈",
     image: "/images/kev/sexy-kev.png",
   },
   {
@@ -64,9 +64,9 @@ export const kevOptions: KevOption[] = [
   {
     id: "musical",
     name: "Musical Kev",
-    emoji: "🥺",
+    emoji: "🎵",
     description:
-      "Dance or sing or guitar or balalaika or all 4",
+      "Dance or sing or guitar or balalaika or all 4!",
     image: "/images/kev/musical-kev.png",
   },
   {
@@ -90,7 +90,7 @@ export const activities: ActivityOption[] = [
     id: "movie",
     name: "Movie Night",
     emoji: "🍿",
-    description: "Soft blanket encouraged.",
+    description: "Close together and easily distracted.",
   },
   {
     id: "coffee",
@@ -114,7 +114,7 @@ export const activities: ActivityOption[] = [
     id: "game",
     name: "Play Something",
     emoji: "🎮",
-    description: "Competitive Kev behavior possible.",
+    description: "Pick any game... I hear there's a pretty good one on the homepage",
   },
   {
     id: "adventure",
