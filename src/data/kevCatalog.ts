@@ -152,7 +152,7 @@ export const extras: ExtraOption[] = [
   {
     id: "tea",
     name: "Tea",
-    emoji: "☕",
+    emoji: "🍵",
     priceLabel: "FREE",
   },
   {
