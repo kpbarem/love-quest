@@ -694,10 +694,10 @@ export default function OrderAKev() {
           )}
         </AnimatePresence>
 
-        <footer className="kev-footer">
+        {/* <footer className="kev-footer">
           KEV DELIVERY SERVICE™ · NO REFUNDS · UNLIMITED
           AFFECTION
-        </footer>
+        </footer> */}
       </div>
     </div>
   );
