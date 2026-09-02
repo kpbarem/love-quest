@@ -394,7 +394,7 @@ export default function OrderAKev() {
               <SectionTitle
                 number="03"
                 title="CUSTOMIZE YOUR KEV"
-                subtitle="Optional enhancements. Most are suspiciously free."
+                subtitle="Optional enhancements at the lowest price (free)."
               />
 
               <div className="extras-panel">
