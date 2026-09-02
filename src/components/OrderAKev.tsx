@@ -29,32 +29,32 @@ const statusSteps: {
   label: string;
   emoji: string;
 }[] = [
-  {
-    status: "requested",
-    label: "Order Received",
-    emoji: "📦",
-  },
-  {
-    status: "notified",
-    label: "Kev Notified",
-    emoji: "📱",
-  },
-  {
-    status: "accepted",
-    label: "Kev Accepted",
-    emoji: "❤️",
-  },
-  {
-    status: "en_route",
-    label: "Kev En Route",
-    emoji: "🚗",
-  },
-  {
-    status: "delivered",
-    label: "Delivered",
-    emoji: "💋",
-  },
-];
+    {
+      status: "requested",
+      label: "Order Received",
+      emoji: "📦",
+    },
+    {
+      status: "notified",
+      label: "Kev Notified",
+      emoji: "📱",
+    },
+    {
+      status: "accepted",
+      label: "Kev Accepted",
+      emoji: "❤️",
+    },
+    {
+      status: "en_route",
+      label: "Kev En Route",
+      emoji: "🚗",
+    },
+    {
+      status: "delivered",
+      label: "Delivered",
+      emoji: "💋",
+    },
+  ];
 
 const statusOrder: KevOrderStatus[] = [
   "requested",
@@ -219,11 +219,10 @@ export default function OrderAKev() {
 
             <ProgressDot
               active={step === "activity"}
-              complete={[
-                "extras",
-                "review",
-                "tracking",
-              ].includes(step)}
+              complete={
+                step === "extras" ||
+                step === "review"
+              }
               text="DATE"
             />
 
@@ -231,7 +230,7 @@ export default function OrderAKev() {
 
             <ProgressDot
               active={step === "extras"}
-              complete={["review", "tracking"].includes(step)}
+              complete={step === "review"}
               text="EXTRAS"
             />
 
@@ -239,7 +238,7 @@ export default function OrderAKev() {
 
             <ProgressDot
               active={step === "review"}
-              complete={step === "tracking"}
+              complete={false}
               text="ORDER"
             />
           </div>
@@ -267,9 +266,8 @@ export default function OrderAKev() {
                     <button
                       key={kev.id}
                       type="button"
-                      className={`kev-card ${
-                        selected ? "selected" : ""
-                      }`}
+                      className={`kev-card ${selected ? "selected" : ""
+                        }`}
                       onClick={() => setSelectedKev(kev.id)}
                     >
                       <div className="kev-image-container">
@@ -345,9 +343,8 @@ export default function OrderAKev() {
                       onClick={() =>
                         setSelectedActivity(activity.id)
                       }
-                      className={`activity-card ${
-                        selected ? "selected" : ""
-                      }`}
+                      className={`activity-card ${selected ? "selected" : ""
+                        }`}
                     >
                       <div className="activity-emoji">
                         {activity.emoji}
@@ -410,9 +407,8 @@ export default function OrderAKev() {
                       key={extra.id}
                       type="button"
                       onClick={() => toggleExtra(extra.id)}
-                      className={`extra-row ${
-                        selected ? "selected" : ""
-                      }`}
+                      className={`extra-row ${selected ? "selected" : ""
+                        }`}
                     >
                       <span className="extra-checkbox">
                         {selected ? "✓" : ""}
@@ -627,11 +623,9 @@ export default function OrderAKev() {
                       className="tracker-row"
                     >
                       <div
-                        className={`tracker-dot ${
-                          complete ? "complete" : ""
-                        } ${
-                          current ? "current" : ""
-                        }`}
+                        className={`tracker-dot ${complete ? "complete" : ""
+                          } ${current ? "current" : ""
+                          }`}
                       >
                         {complete
                           ? status.emoji
@@ -762,9 +756,8 @@ function ProgressDot({
   return (
     <div className="progress-item">
       <div
-        className={`progress-dot ${
-          active ? "active" : ""
-        } ${complete ? "complete" : ""}`}
+        className={`progress-dot ${active ? "active" : ""
+          } ${complete ? "complete" : ""}`}
       >
         {complete ? "✓" : ""}
       </div>
