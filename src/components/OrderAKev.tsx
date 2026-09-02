@@ -190,15 +190,14 @@ export default function OrderAKev() {
         <header className="order-kev-header">
           <div>
             <div className="order-kev-eyebrow">
-              KEVANDRA DELIVERY NETWORK
             </div>
 
-            <h1>ORDER A KEV™</h1>
+            <h1>ORDER A KEV</h1>
 
             <p>
               Premium Kev delivery.
               <br />
-              Exclusively serving Alexandra.
+              For Alexandra.
             </p>
           </div>
 
@@ -253,7 +252,6 @@ export default function OrderAKev() {
               exit={{ opacity: 0, x: -30 }}
             >
               <SectionTitle
-                number="01"
                 title="CHOOSE YOUR KEV"
                 subtitle="Select the Kev best suited to your current needs."
               />
@@ -326,7 +324,6 @@ export default function OrderAKev() {
               exit={{ opacity: 0, x: -30 }}
             >
               <SectionTitle
-                number="02"
                 title="CHOOSE YOUR ADVENTURE"
                 subtitle={`What would you like to do with ${selectedKevData?.name}?`}
               />
@@ -392,7 +389,6 @@ export default function OrderAKev() {
               exit={{ opacity: 0, x: -30 }}
             >
               <SectionTitle
-                number="03"
                 title="CUSTOMIZE YOUR KEV"
                 subtitle="Optional enhancements at the lowest price (free)."
               />
@@ -478,7 +474,6 @@ export default function OrderAKev() {
               exit={{ opacity: 0 }}
             >
               <SectionTitle
-                number="04"
                 title="REVIEW YOUR ORDER"
                 subtitle="Please verify your Kev before deployment."
               />
@@ -709,17 +704,14 @@ export default function OrderAKev() {
 }
 
 function SectionTitle({
-  number,
   title,
   subtitle,
 }: {
-  number: string;
   title: string;
   subtitle: string;
 }) {
   return (
     <div className="section-title">
-      <span>{number}</span>
       <div>
         <h2>{title}</h2>
         <p>{subtitle}</p>
