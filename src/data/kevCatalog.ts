@@ -4,7 +4,8 @@ export type KevType =
   | "dental"
   | "jokey"
   | "musical"
-  | "regular";
+  | "regular"
+  | "travel";
 
 export type KevOption = {
   id: KevType;
@@ -29,6 +30,14 @@ export type ExtraOption = {
 };
 
 export const kevOptions: KevOption[] = [
+  {
+    id: "travel",
+    name: "Travel Kev",
+    emoji: "✈️",
+    description:
+      "Luggage carrying, tea service, and emotional support for the whole journey.",
+    image: "/images/kev/travel-kev.png",
+  },
   {
     id: "cool",
     name: "Cool Kev",

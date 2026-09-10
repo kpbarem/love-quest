@@ -604,6 +604,22 @@ export default function OrderAKev() {
                   .toUpperCase()}
               </p>
 
+              {selectedKev === "travel" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="kev-message travel-kev-message"
+                >
+                  <span>💌 MESSAGE FROM TRAVEL KEV</span>
+
+                  <p>
+                   Моя любовь ❤️ я хотел бы завтра по-настоящему быть рядом с тобой и нести твои сумки,
+                  приготовить тебе чай и сделать дорогу немного легче. Раз я не могу, Travel Kev официально отправляется с тобой хотя бы мысленно.
+                  Я буду думать о тебе всю дорогу. Счастливого пути, моя прекрасная летучая мышка невеста🦇❤️
+                  </p>
+                </motion.div>
+              )}
+
               <div className="tracker">
                 {statusSteps.map((status, index) => {
                   const complete =
