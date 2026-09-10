@@ -35,7 +35,7 @@ export const kevOptions: KevOption[] = [
     name: "Travel Kev",
     emoji: "✈️",
     description:
-      "Luggage carrying, tea service, and emotional support for the whole journey.",
+      "Tea, comfort, luggage help, and a shoulder reserved for sleeping on.",
     image: "/images/kev/travel-kev.png",
   },
   {
@@ -89,6 +89,21 @@ export const kevOptions: KevOption[] = [
 ];
 
 export const activities: ActivityOption[] = [
+  {
+    id: "napsupport",
+    name: "Nap Support",
+    emoji: "😴",
+    description:
+      "Fall into my arms and sleep as long as you want.",
+  },
+  {
+    id: "playlist",
+    name: "Playlist",
+    emoji: "🎧",
+    description:
+      "Good songs, road memories, and you.",
+  },
+
   {
     id: "cuddle",
     name: "Cuddle",

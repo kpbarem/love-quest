@@ -26,6 +26,7 @@ const VALID_KEVS = [
   "jokey",
   "musical",
   "regular",
+  "travel",
 ];
 
 const VALID_ACTIVITIES = [
@@ -37,6 +38,8 @@ const VALID_ACTIVITIES = [
   "game",
   "adventure",
   "nothing",
+   "napsupport",
+  "playlist",
 ];
 
 const VALID_EXTRAS = [
@@ -50,6 +53,7 @@ const VALID_EXTRAS = [
 ];
 
 const kevNames: Record<string, string> = {
+  travel: "✈️ Travel Kev",
   cool: "😎 Cool Kev",
   sexy: "🔥 Sexy Kev",
   dental: "🦷 Dental Kev",
@@ -59,6 +63,8 @@ const kevNames: Record<string, string> = {
 };
 
 const activityNames: Record<string, string> = {
+  napsupport: "😴 Nap Support",
+  playlist: "🎧 Playlist",
   cuddle: "🫂 Cuddle",
   movie: "🍿 Movie Night",
   coffee: "☕ Coffee Date",
