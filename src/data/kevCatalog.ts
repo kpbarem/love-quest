@@ -93,7 +93,7 @@ export const kevOptions: KevOption[] = [
     emoji: "📚",
     description:
       "Professor of cuddling and tea appreciation. Homework may involve kissing",
-    image: "/images/kev/teacher-kev.jpg",
+    image: "/images/kev/teacher-kev.png",
   },
 ];
 
