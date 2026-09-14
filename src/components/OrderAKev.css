@@ -85,6 +85,16 @@
   font-weight: 900;
 }
 
+.teacher-kev-confirmation {
+  margin: 12px auto 18px;
+  max-width: 520px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  text-align: center;
+}
+
 .progress-dot {
   width: 32px;
   height: 32px;

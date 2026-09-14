@@ -27,6 +27,7 @@ const VALID_KEVS = [
   "musical",
   "regular",
   "travel",
+  "teacher",
 ];
 
 const VALID_ACTIVITIES = [
@@ -38,7 +39,7 @@ const VALID_ACTIVITIES = [
   "game",
   "adventure",
   "nothing",
-   "napsupport",
+  "napsupport",
   "playlist",
 ];
 
@@ -60,6 +61,7 @@ const kevNames: Record<string, string> = {
   jokey: "😂 Jokey Kev",
   musical: "🎸 musical Kev",
   regular: "❤️ Regular Kev",
+  teacher: "📚 Teacher Kev",
 };
 
 const activityNames: Record<string, string> = {
@@ -139,8 +141,8 @@ async function sendTelegramMessage({
     text,
     reply_markup: buttons
       ? {
-          inline_keyboard: buttons,
-        }
+        inline_keyboard: buttons,
+      }
       : undefined,
   });
 }
@@ -230,11 +232,11 @@ export const createKevOrder = onCall(
     const extrasText =
       extras.length > 0
         ? extras
-            .map(
-              (extra: string) =>
-                `• ${extraNames[extra]}`
-            )
-            .join("\n")
+          .map(
+            (extra: string) =>
+              `• ${extraNames[extra]}`
+          )
+          .join("\n")
         : "• Standard Kev package";
 
     const instructionsText =

@@ -597,6 +597,16 @@ export default function OrderAKev() {
                 requested.
               </h2>
 
+              {selectedKev === "teacher" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="teacher-kev-confirmation"
+                >
+                  Enrollment confirmed 📚 Teacher Kev is preparing today’s lesson for the best fiance in the world.
+                </motion.div>
+              )}
+
               <p className="order-number">
                 ORDER #
                 {orderId
@@ -613,9 +623,9 @@ export default function OrderAKev() {
                   <span>💌 MESSAGE FROM TRAVEL KEV</span>
 
                   <p>
-                   Моя любовь ❤️ я хотел бы завтра по-настоящему быть рядом с тобой и нести твои сумки,
-                  приготовить тебе чай и сделать дорогу немного легче. Раз я не могу, Travel Kev официально отправляется с тобой хотя бы мысленно.
-                  Я буду думать о тебе всю дорогу. Счастливого пути, моя прекрасная летучая мышка невеста🦇❤️
+                    Моя любовь ❤️ я хотел бы завтра по-настоящему быть рядом с тобой и нести твои сумки,
+                    приготовить тебе чай и сделать дорогу немного легче. Раз я не могу, Travel Kev официально отправляется с тобой хотя бы мысленно.
+                    Я буду думать о тебе всю дорогу. Счастливого пути, моя прекрасная летучая мышка невеста🦇❤️
                   </p>
                 </motion.div>
               )}

@@ -5,7 +5,8 @@ export type KevType =
   | "jokey"
   | "musical"
   | "regular"
-  | "travel";
+  | "travel"
+  | "teacher";
 
 export type KevOption = {
   id: KevType;
@@ -85,6 +86,14 @@ export const kevOptions: KevOption[] = [
     description:
       "Belongs to Alexandra every day",
     image: "/images/kev/regular-kev.jpeg",
+  },
+  {
+    id: "teacher",
+    name: "Teacher Kev",
+    emoji: "📚",
+    description:
+      "Professor of cuddling and tea appreciation. Homework may involve kissing",
+    image: "/images/kev/teacher-kev.jpg",
   },
 ];
 
