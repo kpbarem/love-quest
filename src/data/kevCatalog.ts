@@ -99,7 +99,7 @@ export const kevOptions: KevOption[] = [
   {
     id: "cooking",
     name: "Cooking Kev",
-    emoji: "👨‍🍳",
+    emoji: "🍳",
     description:
       "Dinner, dessert, or breakfast made with love... and maybe dancing.",
     image: "/images/kev/cooking-kev.png",
