@@ -67,7 +67,7 @@ export default function CutieCaptcha() {
             <>
               <div className="captcha-title-row">
                 <div>
-                  <h2>Select all images containing cuties who deserves a kiss</h2>
+                  <h2>Select all images containing cuties who deserve a kiss</h2>
                   <p>
                     If there are none, that would be surprising and honestly
                     upsetting.
