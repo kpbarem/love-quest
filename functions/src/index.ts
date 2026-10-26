@@ -511,3 +511,4 @@ async function answerCallback(
 }
 
 export { generateWouldYouRather } from "./wouldYouRather";
+export { translateWouldYouRather } from "./translateWouldYouRather";
