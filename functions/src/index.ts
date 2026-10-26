@@ -509,3 +509,5 @@ async function answerCallback(
     }
   );
 }
+
+export { generateWouldYouRather } from "./wouldYouRather";

@@ -3,6 +3,7 @@ import LoveQuestRetroGame from "./components/LoveQuestRetroGame";
 import DigitalScrapbook from "./components/DigitalScrapbook";
 import OrderAKev from "./components/OrderAKev";
 import CutieCaptcha from "./components/CutieCaptcha";
+import WouldYouRather from "./components/WouldYouRather";
 
 export default function App() {
     return (
@@ -12,6 +13,7 @@ export default function App() {
             <Route path="/scrapbook/:bookId/view" element={<DigitalScrapbook />} />
             <Route path="/order-a-kev" element={<OrderAKev />} />
             <Route path="/security-check" element={<CutieCaptcha />} />
+            <Route path="/would-you-rather" element={<WouldYouRather />} />
         </Routes>
     );
 }
