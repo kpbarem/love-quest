@@ -167,3 +167,7 @@
     transform: rotate(360deg);
   }
 }
+
+.wyr-option::after {
+    content: none;
+}

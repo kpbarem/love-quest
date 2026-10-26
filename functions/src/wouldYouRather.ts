@@ -39,6 +39,35 @@ function normalize(text: string): string {
         .trim();
 }
 
+function isValidOption(text: string): boolean {
+    const value = text.trim();
+
+    // Reject nested questions.
+    if (/would you rather/i.test(value)) return false;
+
+    // Each option should be a statement, not a question.
+    if (value.includes("?")) return false;
+
+    // Reject obvious internal alternatives.
+    if (/\b(or else|or instead|either\b.+\bor\b)\b/i.test(value)) {
+        return false;
+    }
+
+    // Reject common "X or Y" constructions.
+    if (/\b(or)\b/i.test(value)) {
+        return false;
+    }
+
+    // Keep options reasonably concise.
+    const wordCount = value.split(/\s+/).length;
+
+    if (wordCount < 3 || wordCount > 25) {
+        return false;
+    }
+
+    return true;
+}
+
 export const generateWouldYouRather = onCall(
     {
         secrets: [openaiKey],
@@ -116,7 +145,7 @@ export const generateWouldYouRather = onCall(
 
         const response = await client.chat.completions.create({
             model: "gpt-4.1-mini",
-            temperature: 0.9,
+            temperature: 0.8,
             response_format: { type: "json_object" },
             messages: [
                 {
@@ -162,6 +191,49 @@ Requirements:
 - Do not invent survey findings.
 - Avoid demographic stereotypes.
 - Explain the estimated preference in 1–2 sentences.
+CRITICAL GAME STRUCTURE RULES:
+- The game presents exactly TWO alternatives: option A and option B.
+- Each option must describe ONE action, experience, ability, or outcome.
+- NEVER put another "would you rather" question inside an option.
+- NEVER write "Would you rather..." inside a or b.
+- NEVER make an option contain its own choice between X and Y.
+- NEVER use "or" to introduce a second alternative within an option.
+- Options must be statements or short phrases, NOT questions.
+- Do not end either option with a question mark.
+- Each option should complete the sentence "Would you rather..."
+- A and B must be alternatives within the SAME scenario or topic.
+- Do not combine two unrelated dilemmas into one question.
+- Aim for 5–18 words per option.
+- Keep the language natural, clear, and fun to read aloud.
+- Avoid unnecessarily elaborate philosophical wording.
+- Avoid repeating "Would you rather" at the start of either option.
+
+GOOD EXAMPLES:
+
+A: "Be able to teleport anywhere instantly."
+B: "Be able to pause time whenever you want."
+
+A: "Spend a week in a haunted castle."
+B: "Spend a night in a house filled with friendly ghosts."
+
+A: "Always know when your partner needs a hug."
+B: "Always know exactly how to make your partner laugh."
+
+BAD EXAMPLES:
+
+A: "Would you rather be rich or famous?"
+B: "Would you rather be loved or respected?"
+
+A: "Live forever or die young?"
+B: "Travel through time or see the future?"
+
+A: "Sacrifice freedom for peace or fight endlessly for freedom?"
+B: "Live a simple life or a complicated life?"
+
+These are INVALID because each option contains its own internal choice.
+
+Before returning JSON, review every question.
+If either option contains another dilemma, rewrite the question.
           `,
                 },
                 {
@@ -238,10 +310,12 @@ Requirements:
             const explanation = q.explanation.trim();
 
             if (
-                a.length < 10 || a.length > 250 ||
-                b.length < 10 || b.length > 250 ||
+                a.length < 10 || a.length > 180 ||
+                b.length < 10 || b.length > 180 ||
                 explanation.length < 10 || explanation.length > 500 ||
-                normalize(a) === normalize(b)
+                normalize(a) === normalize(b) ||
+                !isValidOption(a) ||
+                !isValidOption(b)
             ) {
                 continue;
             }

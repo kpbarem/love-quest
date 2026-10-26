@@ -428,7 +428,7 @@ export default function WouldYouRather() {
                                         <span className="wyr-option-letter">{choice}</span>
                                         <span>
                                             {choice === "A" ? displayedQuestion?.a : displayedQuestion?.b}
-                                        </span>˝
+                                        </span>
                                     </button>
                                 ))}
                             </div>
