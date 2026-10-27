@@ -24,6 +24,7 @@ const LANGUAGE_KEY = "lovequest-wyr-language";
 
 const translations = {
     en: {
+        back: "← KEVANDRA ARCADE",
         title: "WOULD YOU RATHER?",
         subtitle: "Choose your answer. Defend your answer. Repeat forever. ❤️",
         question: "Would you rather...",
@@ -54,6 +55,7 @@ const translations = {
         },
     },
     ru: {
+        back: "← АРКАДА KEVANDRA",
         title: "ЧТО БЫ ТЫ ВЫБРАЛА?",
         subtitle: "Выбирай, объясняй свой выбор и веселись! ❤️",
         question: "Что бы ты выбрала?",
@@ -357,7 +359,7 @@ export default function WouldYouRather() {
         <main className="wyr-page">
             <div className="wyr-shell">
                 <header className="wyr-header">
-                    <Link to="/" className="wyr-home">← LOVE QUEST</Link>
+                    <Link to="/arcade" className="wyr-home">{t.back}</Link>
                     <div className="wyr-header-actions">
                         <span className="wyr-brand">🦇 KEVANDRA</span>
 
