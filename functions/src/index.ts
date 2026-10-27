@@ -512,3 +512,14 @@ async function answerCallback(
 
 export { generateWouldYouRather } from "./wouldYouRather";
 export { translateWouldYouRather } from "./translateWouldYouRather";
+export {
+    createWavelengthRoom,
+    joinWavelengthRoom,
+} from "./wavelengthRooms";
+
+export {
+    getWavelengthTarget,
+    submitWavelengthClue,
+    submitWavelengthGuess,
+    nextWavelengthRound,
+} from "./wavelengthGame";

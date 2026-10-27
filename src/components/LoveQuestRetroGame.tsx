@@ -638,10 +638,10 @@ export default function LoveQuestRetroGame() {
             📦 Order a Kev
           </Link>
           <Link
-            to="/would-you-rather"
+            to="/arcade"
             className="rounded-2xl border-2 border-purple-300 bg-purple-500/20 hover:bg-purple-500/30 px-4 py-3 font-black text-center"
           >
-            🦇 Would You Rather?
+            🦇 Kevandra Arcade?
           </Link>
         </header>
         <section className="grid sm:grid-cols-2 gap-4 mb-6">

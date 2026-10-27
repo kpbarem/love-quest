@@ -1,0 +1,355 @@
+.wave-online-page {
+    min-height: 100dvh;
+    padding: 24px 16px 60px;
+    background: #f6f4f0;
+    color: #172033;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.wave-online-page * {
+    box-sizing: border-box;
+}
+
+.wave-online-shell {
+    width: min(100%, 700px);
+    margin: 0 auto;
+}
+
+.wave-online-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 900;
+    color: #64748b;
+}
+
+.wave-online-header a {
+    color: #263449;
+    text-decoration: none;
+}
+
+.wave-online-card {
+    margin-top: 65px;
+    padding: 40px 28px;
+    background: #fff;
+    border: 1px solid #dce2e9;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 14px 40px #26344912;
+}
+
+.wave-online-icon {
+    font-size: 42px;
+}
+
+.wave-online-card h1 {
+    margin: 15px 0;
+    font-size: clamp(26px, 6vw, 40px);
+}
+
+.wave-online-card h2 {
+    font-size: 22px;
+    margin-top: 30px;
+}
+
+.wave-online-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.wave-online-primary,
+.wave-online-secondary {
+    display: block;
+    width: 100%;
+    max-width: 370px;
+    margin: 25px auto 0;
+    padding: 16px;
+    border-radius: 13px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.wave-online-primary {
+    border: none;
+    background: #172033;
+    color: #fff;
+}
+
+.wave-online-primary:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.wave-online-secondary {
+    border: 1px solid #dce2e9;
+    background: #f8fafc;
+    color: #172033;
+}
+
+.wave-online-player {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 9px 16px;
+    border-radius: 99px;
+    background: #fce8eb;
+    color: #bf2942;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.wave-online-status {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.wave-online-status span {
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: #f3f6f9;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.wave-online-note {
+    margin-top: 25px;
+    font-style: italic;
+}
+
+.wave-online-error {
+    color: #c62840 !important;
+    margin-top: 22px;
+}
+
+@media (max-width: 600px) {
+    .wave-online-card {
+        margin-top: 35px;
+        padding: 30px 18px;
+    }
+}
+
+.wave-online-scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 35px;
+    padding: 18px;
+    background: #f7f9fb;
+    border-radius: 15px;
+}
+
+.wave-online-scoreboard > div:first-child,
+.wave-online-scoreboard > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    align-items: center;
+}
+
+.wave-online-scoreboard span,
+.wave-online-results span {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.wave-online-scoreboard strong {
+    font-size: 28px;
+}
+
+.wave-online-round {
+    font-size: 12px;
+    font-weight: 900;
+    color: #cc3047;
+}
+
+.wave-online-spectrum-labels {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.wave-online-spectrum-labels span:last-child {
+    text-align: right;
+}
+
+.wave-online-track {
+    position: relative;
+    height: 90px;
+    margin: 22px 12px 30px;
+}
+
+.wave-online-gradient {
+    position: absolute;
+    top: 27px;
+    left: 0;
+    right: 0;
+    height: 32px;
+    border-radius: 99px;
+    background: linear-gradient(
+        90deg,
+        #49a7e8,
+        #82d4c0,
+        #f6df8c,
+        #f4a261,
+        #e45668
+    );
+}
+
+.wave-online-target,
+.wave-online-guess {
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.wave-online-target {
+    top: -9px;
+}
+
+.wave-online-guess {
+    top: 59px;
+    color: #172033;
+}
+
+.wave-online-phase {
+    margin-top: 25px;
+}
+
+.wave-online-phase h2 {
+    font-size: clamp(21px, 5vw, 28px);
+}
+
+.wave-online-phase p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.wave-online-secret {
+    display: inline-block;
+    margin: 12px 0;
+    padding: 15px 25px;
+    background: #fce8eb;
+    border-radius: 14px;
+    color: #bf2942;
+    font-size: 34px;
+    font-weight: 950;
+}
+
+.wave-online-phase input[type="text"] {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    padding: 13px 15px;
+    border: 1px solid #dce2e9;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #172033;
+    font: inherit;
+    font-size: 14px;
+}
+
+.wave-online-slider {
+    display: block;
+    width: 100%;
+    margin: 32px 0 20px;
+    accent-color: #cc3047;
+    cursor: pointer;
+}
+
+.wave-online-small-label {
+    font-size: 11px !important;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.wave-online-clue {
+    color: #cc3047;
+    overflow-wrap: anywhere;
+}
+
+.wave-online-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.wave-online-results > div {
+    padding: 16px 8px;
+    border-radius: 12px;
+    background: #f3f6f9;
+}
+
+.wave-online-results strong {
+    display: block;
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+@media (max-width: 480px) {
+    .wave-online-spectrum-labels {
+        font-size: 12px;
+    }
+
+    .wave-online-results {
+        gap: 5px;
+    }
+
+    .wave-online-results strong {
+        font-size: 20px;
+    }
+}
+
+.wave-online-language {
+    display: flex;
+    gap: 3px;
+    padding: 3px;
+    background: #e9edf2;
+    border-radius: 999px;
+}
+
+.wave-online-language button {
+    min-width: 43px;
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #475569;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.wave-online-language button.active {
+    background: white;
+    color: #172033;
+    box-shadow: 0 1px 4px #00000018;
+}
+
+.wave-online-language button:focus-visible {
+    outline: 2px solid #078fc5;
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .wave-online-header {
+        flex-wrap: wrap;
+    }
+}

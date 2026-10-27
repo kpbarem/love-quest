@@ -1,0 +1,215 @@
+.arcade-page {
+    min-height: 100dvh;
+    background: #f6f4f0;
+    color: #172033;
+    padding: 24px 18px 60px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.arcade-page * {
+    box-sizing: border-box;
+}
+
+.arcade-shell {
+    width: min(100%, 940px);
+    margin: 0 auto;
+}
+
+.arcade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    font-weight: 900;
+    color: #657287;
+}
+
+.arcade-back {
+    color: #263449;
+    text-decoration: none;
+}
+
+.arcade-back:hover {
+    color: #cc2335;
+}
+
+.arcade-intro {
+    text-align: center;
+    padding: 70px 0 45px;
+}
+
+.arcade-eyebrow {
+    color: #cf3046;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.arcade-intro h1 {
+    margin: 14px 0;
+    font-size: clamp(34px, 7vw, 62px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    font-weight: 950;
+}
+
+.arcade-intro > p:last-child {
+    color: #657287;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.arcade-games {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.arcade-game {
+    display: block;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #dce2e9;
+    border-radius: 22px;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 14px 40px #26344912;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.arcade-game:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px #26344920;
+}
+
+.arcade-game:focus-visible {
+    outline: 3px solid #f6aa36;
+    outline-offset: 4px;
+}
+
+.arcade-game-art {
+    height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.arcade-game-wyr {
+    background: linear-gradient(110deg, #d82436 0 50%, #079bcc 50% 100%);
+}
+
+.arcade-choice-a,
+.arcade-choice-b {
+    display: grid;
+    place-items: center;
+    width: 78px;
+    height: 78px;
+    background: #ffffff30;
+    border-radius: 20px;
+    color: white;
+    font-size: 46px;
+    font-weight: 950;
+}
+
+.arcade-or {
+    color: white;
+    font-size: 18px;
+    font-weight: 950;
+    text-shadow: 0 2px 8px #0005;
+}
+
+.arcade-game-wave {
+    background: #172033;
+    flex-direction: column;
+}
+
+.arcade-spectrum {
+    position: relative;
+    width: 75%;
+    height: 32px;
+    border-radius: 99px;
+    background: linear-gradient(
+        90deg,
+        #49a7e8,
+        #82d4c0,
+        #f6df8c,
+        #f4a261,
+        #e45668
+    );
+}
+
+.arcade-spectrum-marker {
+    position: absolute;
+    top: -17px;
+    left: 65%;
+    width: 4px;
+    height: 65px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 12px #ffffff80;
+}
+
+.arcade-wave-caption {
+    color: #dce6f3;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.arcade-game-details {
+    padding: 25px;
+}
+
+.arcade-game-label {
+    color: #cc3047;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+}
+
+.arcade-game-details h2 {
+    font-size: 23px;
+    margin: 12px 0;
+}
+
+.arcade-game-details p {
+    min-height: 48px;
+    color: #657287;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.arcade-play {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.arcade-footer {
+    margin-top: 55px;
+    text-align: center;
+    font-size: 12px;
+    color: #8190a0;
+}
+
+@media (max-width: 650px) {
+    .arcade-intro {
+        padding: 50px 0 30px;
+    }
+
+    .arcade-games {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .arcade-game-art {
+        height: 170px;
+    }
+
+    .arcade-game-details {
+        padding: 20px;
+    }
+}
