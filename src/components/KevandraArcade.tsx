@@ -49,7 +49,7 @@ export default function KevandraArcade() {
                 </section>
 
                 <footer className="arcade-footer">
-                    Gaming with wifey
+                    🎵Let's play a love game. Play a love game🎵
                 </footer>
             </div>
         </main>

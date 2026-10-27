@@ -1,5 +1,11 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import {
+    WAITING_ROOM_MS,
+    ACTIVE_ROOM_MS,
+    expirationFromNow,
+    isRoomExpired,
+} from "./wavelengthExpiration";
 
 const db = getFirestore();
 const rooms = db.collection("wavelengthRooms");
@@ -32,6 +38,7 @@ export const createWavelengthRoom = onCall(
             scores: [0, 0],
             createdAt: FieldValue.serverTimestamp(),
             updatedAt: FieldValue.serverTimestamp(),
+            expiresAt: expirationFromNow(WAITING_ROOM_MS),
         });
 
         return {
@@ -73,6 +80,13 @@ export const joinWavelengthRoom = onCall(
                 const room = snapshot.data()!;
                 const players = room.players as string[];
 
+                if (isRoomExpired(room)) {
+                    throw new HttpsError(
+                        "failed-precondition",
+                        "This invitation has expired. Please create a new room."
+                    );
+                }
+
                 // Rejoining from the same browser is allowed.
                 if (players.includes(uid)) {
                     return players.indexOf(uid) + 1;
@@ -97,6 +111,7 @@ export const joinWavelengthRoom = onCall(
                     guestUid: uid,
                     status: "ready",
                     updatedAt: FieldValue.serverTimestamp(),
+                    expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
                 });
 
                 return 2;

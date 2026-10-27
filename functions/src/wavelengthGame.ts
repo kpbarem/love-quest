@@ -1,6 +1,11 @@
 import { randomInt } from "node:crypto";
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import {
+    ACTIVE_ROOM_MS,
+    expirationFromNow,
+    isRoomExpired,
+} from "./wavelengthExpiration";
 
 const db = getFirestore();
 
@@ -116,6 +121,12 @@ export const getWavelengthTarget = onCall(
 
             const room = roomSnapshot.data()!;
             requirePlayer(room, uid);
+            if (isRoomExpired(room)) {
+                throw new HttpsError(
+                    "failed-precondition",
+                    "This game has expired. Please create a new room."
+                );
+            }
 
             if (room.status !== "ready" || room.players.length !== 2) {
                 throw new HttpsError(
@@ -147,6 +158,7 @@ export const getWavelengthTarget = onCall(
                 transaction.set(secretRef, {
                     round: room.round,
                     target,
+                    expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
                 });
 
                 transaction.update(roomRef, {
@@ -214,6 +226,12 @@ export const submitWavelengthClue = onCall(
             const room = roomSnapshot.data()!;
             const secret = secretSnapshot.data()!;
             requirePlayer(room, uid);
+            if (isRoomExpired(room)) {
+                throw new HttpsError(
+                    "failed-precondition",
+                    "This game has expired. Please create a new room."
+                );
+            }
 
             if (
                 room.status !== "ready" ||
@@ -230,7 +248,11 @@ export const submitWavelengthClue = onCall(
             transaction.update(roomRef, {
                 clue: clue.trim(),
                 phase: "guess",
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
                 updatedAt: FieldValue.serverTimestamp(),
+            });
+            transaction.update(secretRef, {
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
             });
         });
 
@@ -275,6 +297,12 @@ export const submitWavelengthGuess = onCall(
             const room = roomSnapshot.data()!;
             const secret = secretSnapshot.data()!;
             requirePlayer(room, uid);
+            if (isRoomExpired(room)) {
+                throw new HttpsError(
+                    "failed-precondition",
+                    "This game has expired. Please create a new room."
+                );
+            }
 
             if (
                 room.status !== "ready" ||
@@ -301,7 +329,12 @@ export const submitWavelengthGuess = onCall(
                 points,
                 scores,
                 phase: "reveal",
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
                 updatedAt: FieldValue.serverTimestamp(),
+            });
+
+            transaction.update(secretRef, {
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
             });
         });
 
@@ -327,6 +360,12 @@ export const nextWavelengthRound = onCall(
 
             const room = roomSnapshot.data()!;
             requirePlayer(room, uid);
+            if (isRoomExpired(room)) {
+                throw new HttpsError(
+                    "failed-precondition",
+                    "This game has expired. Please create a new room."
+                );
+            }
 
             if (
                 room.status !== "ready" ||
@@ -346,6 +385,8 @@ export const nextWavelengthRound = onCall(
             transaction.set(secretRef, {
                 round: nextRound,
                 target: randomTarget(),
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
+
             });
 
             transaction.update(roomRef, {
@@ -357,6 +398,7 @@ export const nextWavelengthRound = onCall(
                 target: null,
                 points: null,
                 updatedAt: FieldValue.serverTimestamp(),
+                expiresAt: expirationFromNow(ACTIVE_ROOM_MS),
             });
         });
 

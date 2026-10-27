@@ -1,46 +1,60 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Wavelength.css";
+import {
+    waveSpectrums,
+    type WaveLanguage,
+} from "./wavelengthTranslations";
 
 type Player = "Kevin" | "Alexandra";
 type Phase = "clue" | "guess" | "reveal";
 
-type Spectrum = {
-    left: string;
-    right: string;
-};
+// type Spectrum = {
+//     left: string;
+//     right: string;
+// };
 
-const spectrums: Spectrum[] = [
-    { left: "Terrible", right: "Wonderful" },
-    { left: "Completely normal", right: "Extremely weird" },
-    { left: "Romantic", right: "Not romantic at all" },
-    { left: "Harmless", right: "Dangerous" },
-    { left: "Boring", right: "Exciting" },
-    { left: "Underrated", right: "Overrated" },
-    { left: "Easy", right: "Difficult" },
-    { left: "Cute", right: "Terrifying" },
-    { left: "Cheap", right: "Expensive" },
-    { left: "Old-fashioned", right: "Futuristic" },
-    { left: "Realistic", right: "Impossible" },
-    { left: "Relaxing", right: "Stressful" },
-    { left: "Sweet", right: "Spicy" },
-    { left: "Ordinary", right: "Magical" },
-    { left: "Innocent", right: "Mischievous" },
-    { left: "Bad date idea", right: "Amazing date idea" },
-    { left: "Unromantic", right: "Very romantic" },
-    { left: "Forgettable", right: "Unforgettable" },
-    { left: "Awkward", right: "Charming" },
-    { left: "Very human", right: "Very alien" },
-];
+// const spectrums: Spectrum[] = [
+//     { left: "Terrible", right: "Wonderful" },
+//     { left: "Completely normal", right: "Extremely weird" },
+//     { left: "Romantic", right: "Not romantic at all" },
+//     { left: "Harmless", right: "Dangerous" },
+//     { left: "Boring", right: "Exciting" },
+//     { left: "Underrated", right: "Overrated" },
+//     { left: "Easy", right: "Difficult" },
+//     { left: "Cute", right: "Terrifying" },
+//     { left: "Cheap", right: "Expensive" },
+//     { left: "Old-fashioned", right: "Futuristic" },
+//     { left: "Realistic", right: "Impossible" },
+//     { left: "Relaxing", right: "Stressful" },
+//     { left: "Sweet", right: "Spicy" },
+//     { left: "Ordinary", right: "Magical" },
+//     { left: "Innocent", right: "Mischievous" },
+//     { left: "Bad date idea", right: "Amazing date idea" },
+//     { left: "Unromantic", right: "Very romantic" },
+//     { left: "Forgettable", right: "Unforgettable" },
+//     { left: "Awkward", right: "Charming" },
+//     { left: "Very human", right: "Very alien" },
+// ];
 
 function randomTarget() {
     return Math.floor(Math.random() * 81) + 10;
 }
 
-function randomSpectrum(previous?: Spectrum): Spectrum {
-    const choices = spectrums.filter(s => s !== previous);
-    return choices[Math.floor(Math.random() * choices.length)];
+// function randomSpectrum(previous?: Spectrum): Spectrum {
+//     const choices = spectrums.filter(s => s !== previous);
+//     return choices[Math.floor(Math.random() * choices.length)];
+// }
+
+function randomSpectrumIndex(previous?: number): number {
+    if (previous === undefined) {
+        return Math.floor(Math.random() * waveSpectrums.length);
+    }
+
+    const next = Math.floor(Math.random() * (waveSpectrums.length - 1));
+    return next >= previous ? next + 1 : next;
 }
+
 
 function calculateScore(guess: number, target: number) {
     const distance = Math.abs(guess - target);
@@ -52,10 +66,86 @@ function calculateScore(guess: number, target: number) {
     return 0;
 }
 
+
+
+const localWaveText = {
+    en: {
+        back: "← KEVANDRA ARCADE",
+        eyebrow: "HOW WELL DO OUR MINDS ALIGN?",
+        subtitle: "Give a clue. Find if we are on the same wave ❤️",
+        round: "ROUND",
+        playOnline: "❤️ Play Together Online →",
+        givingClue: (name: string) => `🎭 ${name}, you're giving the clue!`,
+        makingGuess: (name: string) => `🎯 ${name}, make your guess!`,
+        resultsIn: "✨ The results are in!",
+        secretTarget: "Secret target",
+        clueInstructions:
+            "Think of something that belongs at this position between the two extremes.",
+        yourClue: "Your clue",
+        cluePlaceholder: "Example: A cup of warm tea",
+        hideTarget: (name: string) => `Hide Target & Pass to ${name} →`,
+        playersClue: (name: string) => `${name}'s clue`,
+        guessInstructions:
+            "Where do you think this belongs on the spectrum?",
+        guessAriaLabel: "Your guess on the spectrum",
+        reveal: "Reveal Our Wavelength ✨",
+        perfect: "🎯 Perfect connection!",
+        close: "❤️ Pretty close!",
+        different: "😂 Different wavelengths!",
+        targetLabel: "SECRET TARGET",
+        guessLabel: "YOUR GUESS",
+        pointsLabel: "POINTS",
+        nextRound: "Next Round →",
+        footer: "Two minds. One wavelength.",
+    },
+    ru: {
+        back: "← АРКАДА KEVANDRA",
+        eyebrow: "НАСКОЛЬКО НАШИ МЫСЛИ СОВПАДАЮТ?",
+        subtitle: "Дай подсказку. Узнай, на одной ли мы волне ❤️",
+        round: "РАУНД",
+        playOnline: "❤️ Играть вместе онлайн →",
+        givingClue: (name: string) => `🎭 ${name}, твоя очередь давать подсказку!`,
+        makingGuess: (name: string) => `🎯 ${name}, попробуй угадать!`,
+        resultsIn: "✨ Результаты готовы!",
+        secretTarget: "Секретная цель",
+        clueInstructions:
+            "Придумай что-нибудь, что соответствует этой точке между двумя крайностями.",
+        yourClue: "Твоя подсказка",
+        cluePlaceholder: "Например: чашка тёплого чая",
+        hideTarget: (name: string) => `Скрыть цель и передать ${name} →`,
+        playersClue: (name: string) => `Подсказка от ${name}`,
+        guessInstructions:
+            "Как думаешь, где эта подсказка находится на шкале?",
+        guessAriaLabel: "Твоя догадка на шкале",
+        reveal: "Узнать, на одной ли мы волне ✨",
+        perfect: "🎯 Идеальное совпадение!",
+        close: "❤️ Очень близко!",
+        different: "😂 Мы на разных волнах!",
+        targetLabel: "СЕКРЕТНАЯ ЦЕЛЬ",
+        guessLabel: "ТВОЯ ДОГАДКА",
+        pointsLabel: "ОЧКИ",
+        nextRound: "Следующий раунд →",
+        footer: "Два сердца. Одна волна.",
+    },
+};
+
+
 export default function Wavelength() {
-    const [spectrum, setSpectrum] = useState<Spectrum>(
-        () => randomSpectrum()
+    const [spectrumIndex, setSpectrumIndex] = useState(randomSpectrumIndex);
+
+    const [language, setLanguage] = useState<WaveLanguage>(
+        () =>
+            localStorage.getItem("kevandra-wave-language") === "ru"
+                ? "ru"
+                : "en"
     );
+
+    function changeLanguage(next: WaveLanguage) {
+        setLanguage(next);
+        localStorage.setItem("kevandra-wave-language", next);
+    }
+
+    const spectrum = waveSpectrums[spectrumIndex][language];
     const [target, setTarget] = useState(randomTarget);
     const [guess, setGuess] = useState(50);
     const [clue, setClue] = useState("");
@@ -66,6 +156,7 @@ export default function Wavelength() {
         Alexandra: 0,
     });
     const [round, setRound] = useState(1);
+    const t = localWaveText[language];
 
     const guesser: Player =
         clueGiver === "Kevin" ? "Alexandra" : "Kevin";
@@ -73,7 +164,7 @@ export default function Wavelength() {
     const points = calculateScore(guess, target);
 
     function nextRound() {
-        setSpectrum(previous => randomSpectrum(previous));
+        setSpectrumIndex(previous => randomSpectrumIndex(previous));
         setTarget(randomTarget());
         setGuess(50);
         setClue("");
@@ -101,16 +192,37 @@ export default function Wavelength() {
         <main className="wave-page">
             <div className="wave-shell">
                 <header className="wave-header">
-                    <Link to="/arcade">← KEVANDRA ARCADE</Link>
-                    <span>🦇 KEVANDRA</span>
+
+                    <Link to="/arcade">{t.back}</Link>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                        <button
+                            type="button"
+                            onClick={() => changeLanguage(language === "en" ? "ru" : "en")}
+                            style={{
+                                border: "1px solid rgba(255,255,255,0.3)",
+                                background: "transparent",
+                                color: "inherit",
+                                borderRadius: "999px",
+                                padding: "6px 12px",
+                                cursor: "pointer",
+                                fontWeight: 700,
+                            }}
+                            aria-label="Switch language"
+                        >
+                            {language === "en" ? "EN / RU" : "RU / EN"}
+                        </button>
+
+                        <span>🦇 KEVANDRA</span>
+                    </div>
                 </header>
 
                 <section className="wave-intro">
                     <span className="wave-eyebrow">
-                        HOW WELL DO OUR MINDS ALIGN?
+                        {t.eyebrow}
                     </span>
                     <h1>WAVELENGTH</h1>
-                    <p>Give a clue. Find if we are on the same wave ❤️</p>
+                    <p>{t.subtitle}</p>
                 </section>
 
                 <div className="wave-scoreboard">
@@ -120,7 +232,7 @@ export default function Wavelength() {
                     </div>
 
                     <div className="wave-round">
-                        ROUND {round}
+                        {t.round} {round}
                     </div>
 
                     <div>
@@ -131,22 +243,22 @@ export default function Wavelength() {
 
                 <div className="wave-online-entry">
                     <Link to="/wavelength/online" className="wave-online-entry-link">
-                        ❤️ Play Together Online →
+                        {t.playOnline}
                     </Link>
                 </div>
 
                 <section className="wave-card">
                     <div className="wave-role">
                         {phase === "clue"
-                            ? `🎭 ${clueGiver}, you're giving the clue!`
+                            ? t.givingClue(clueGiver)
                             : phase === "guess"
-                                ? `🎯 ${guesser}, make your guess!`
-                                : "✨ The results are in!"}
+                                ? t.makingGuess(guesser)
+                                : t.resultsIn}
                     </div>
 
                     <div className="wave-spectrum-labels">
-                        <span>{spectrum.left}</span>
-                        <span>{spectrum.right}</span>
+                        <span>{spectrum[0]}</span>
+                        <span>{spectrum[1]}</span>
                     </div>
 
                     <div className="wave-track">
@@ -173,19 +285,18 @@ export default function Wavelength() {
 
                     {phase === "clue" && (
                         <div className="wave-phase">
-                            <h2>Secret target: {target}%</h2>
+                            <h2>{t.secretTarget}: {target}%</h2>
                             <p>
-                                Think of something that belongs at this
-                                position between the two extremes.
+                                {t.clueInstructions}
                             </p>
 
-                            <label htmlFor="wave-clue">Your clue</label>
+                            <label htmlFor="wave-clue">{t.yourClue}</label>
 
                             <input
                                 id="wave-clue"
                                 type="text"
                                 maxLength={100}
-                                placeholder="Example: A cup of warm tea"
+                                placeholder={t.cluePlaceholder}
                                 value={clue}
                                 onChange={event =>
                                     setClue(event.target.value)
@@ -197,7 +308,7 @@ export default function Wavelength() {
                                 disabled={!clue.trim()}
                                 onClick={() => setPhase("guess")}
                             >
-                                Hide Target & Pass to {guesser} →
+                                {t.hideTarget(guesser)}
                             </button>
                         </div>
                     )}
@@ -205,13 +316,13 @@ export default function Wavelength() {
                     {phase === "guess" && (
                         <div className="wave-phase">
                             <p className="wave-small-label">
-                                {clueGiver}'S CLUE
+                                 {t.playersClue(clueGiver)}
                             </p>
 
                             <h2 className="wave-clue">“{clue}”</h2>
 
                             <p>
-                                Where do you think this belongs on the spectrum?
+                                {t.guessInstructions}
                             </p>
 
                             <input
@@ -223,14 +334,14 @@ export default function Wavelength() {
                                 onChange={event =>
                                     setGuess(Number(event.target.value))
                                 }
-                                aria-label="Your guess on the spectrum"
+                                aria-label={t.guessAriaLabel}
                             />
 
                             <button
                                 className="wave-primary"
                                 onClick={reveal}
                             >
-                                Reveal Our Wavelength ✨
+                                {t.reveal} 
                             </button>
                         </div>
                     )}
@@ -239,23 +350,23 @@ export default function Wavelength() {
                         <div className="wave-phase">
                             <h2>
                                 {points === 4
-                                    ? "🎯 Perfect connection!"
+                                    ? t.perfect
                                     : points >= 2
-                                        ? "❤️ Pretty close!"
-                                        : "😂 Different wavelengths!"}
+                                        ? t.close
+                                        : t.different}
                             </h2>
 
                             <div className="wave-result-numbers">
                                 <div>
-                                    <span>SECRET TARGET</span>
+                                    <span>{t.targetLabel}</span>
                                     <strong>{target}%</strong>
                                 </div>
                                 <div>
-                                    <span>YOUR GUESS</span>
+                                    <span>{t.guessLabel}</span>
                                     <strong>{guess}%</strong>
                                 </div>
                                 <div>
-                                    <span>POINTS</span>
+                                    <span>{t.pointsLabel}</span>
                                     <strong>+{points}</strong>
                                 </div>
                             </div>
@@ -264,14 +375,14 @@ export default function Wavelength() {
                                 className="wave-primary"
                                 onClick={nextRound}
                             >
-                                Next Round →
+                                {t.nextRound}
                             </button>
                         </div>
                     )}
                 </section>
 
                 <footer className="wave-footer">
-                    Two minds. One wavelength.
+                    {t.footer}
                 </footer>
             </div>
         </main>
